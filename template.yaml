@@ -117,9 +117,11 @@ spec:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
+        visibility: public
+        replace: false
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action
-      name: Trigger GitHub Action
+      name: Infra - Trigger GitHub Action
       action: github:actions:dispatch
       input:
         workflowId: manage-aks-cluster.yml  # GitHub Action workflow ID
@@ -141,30 +143,26 @@ spec:
       input:
         repoContentsUrl: "https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog"
         catalogInfoPath: '/blob/main/infrastructure/infra-catalog-info.yaml'  # Where the catalog info is stored
-    - id: Please wait infrastructure getting created
-      name: Please wait infrastructure getting created
+    - id: Please wait infra getting created
+      name: Please wait infra getting created
       action: roadiehq:utils:sleep
       input:
         amount: 360  # Duration in seconds (6 minutes)
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action-node-app
-      name: Trigger GitHub Action
+      name: App - Trigger GitHub Action
       action: github:actions:dispatch
       input:
         workflowId: deploy-app-to-aks-cluster.yml  # GitHub Action workflow ID
         repoUrl: 'github.com?repo=${{ parameters.name }}&owner=kedar-org'
         branchOrTagName: 'master'  # The branch to run this action on
         workflowInputs:
-          organizationName: ${{ parameters.organizationName }}
-          email: ${{ parameters.email }}
           projectName: ${{ parameters.projectName }}
-          workspaceName: ${{ parameters.workspaceName }}
-          resourceGroupName: ${{ parameters.resourceGroupName }}  
+          resourceGroupName: ${{ parameters.resourceGroupName }} 
           clusterName: ${{ parameters.clusterName }}
-          region: ${{ parameters.region }}
-          action: "apply"
           registryName: "idpbackstage.azurecr.io"
           acrName: "idpbackstage"
+          action: "apply"
       dependsOn: [github-action]   
     # Register the new component in the Backstage catalog
     - id: register-app

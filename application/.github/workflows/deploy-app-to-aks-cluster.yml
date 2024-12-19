@@ -51,6 +51,9 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Authenticate AKS with ACR
+        run: az aks update -n ${{ github.event.inputs.clusterName }} -g ${{ github.event.inputs.resourceGroupName }} --attach-acr ${{ github.event.inputs.acrName }}  
      
       - name: Build and Push Docker Image
         env:
@@ -75,6 +78,14 @@ jobs:
       - name: Deploy to AKS
         run: |
           kubectl apply -f k8s/
+          
+      - name: Please wait creating external IP
+        run:  sleep 60
+        
+      - name: Get External IP
+        run: |
+          kubectl get services ${{ github.event.inputs.projectName }} 
+    
 
   delete-pods:
     runs-on: ubuntu-latest
