@@ -62,7 +62,7 @@ jobs:
       working-directory: Terraform
     - name: Terraform Apply
       run: terraform apply -auto-approve
-      working-directory: Terraform
+      working-directory: infrastructure
 
   destroy_cluster:
     runs-on: ubuntu-latest
@@ -97,4 +97,4 @@ jobs:
       working-directory: Terraform
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
-      working-directory: Terraform
+      working-directory: infrastructure

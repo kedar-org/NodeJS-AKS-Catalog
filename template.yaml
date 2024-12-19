@@ -139,7 +139,7 @@ spec:
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        repoContentsUrl: ${{ steps['github-action'].output.repoContentsUrl }}
         catalogInfoPath: '/infrastructure/infra-catalog-info.yaml'  # Where the catalog info is stored
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action-node-app
@@ -167,7 +167,7 @@ spec:
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
-        catalogInfoPath: '/application/app-catalog-info.yaml'  # Where the catalog info is stored
+        catalogInfoPath: '/app-catalog-info.yaml'  # Where the catalog info is stored
 
   # Output links to the user after the template execution
   output:
