@@ -139,7 +139,7 @@ spec:
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['github-action'].output.repoContentsUrl }}
+        repoContentsUrl: "https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog"
         catalogInfoPath: '/infrastructure/infra-catalog-info.yaml'  # Where the catalog info is stored
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action-node-app
@@ -166,7 +166,7 @@ spec:
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        repoContentsUrl: ${{ steps['publish'].output. }}
         catalogInfoPath: '/app-catalog-info.yaml'  # Where the catalog info is stored
       dependsOn: [github-action-node-app]
   # Output links to the user after the template execution
