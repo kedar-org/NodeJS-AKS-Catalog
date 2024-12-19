@@ -140,7 +140,7 @@ spec:
       action: catalog:register
       input:
         repoContentsUrl: "https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog"
-        catalogInfoPath: '/infrastructure/infra-catalog-info.yaml'  # Where the catalog info is stored
+        catalogInfoPath: '/blob/main/infrastructure/infra-catalog-info.yaml'  # Where the catalog info is stored
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action-node-app
       name: Trigger GitHub Action
