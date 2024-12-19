@@ -119,6 +119,14 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         visibility: public
         replace: false
+
+    - id: copy-workflow
+      name: Copy GitHub Workflow
+      action: filesystem:copy
+      input:
+        src: './application/.github/workflows/deploy-app-to-aks-cluster.yml'
+        dest: '${{ steps["publish"].output.repoUrl }}/.github/workflows/deploy-app-to-aks-cluster.yml'        
+        
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action
       name: Infra - Trigger GitHub Action
