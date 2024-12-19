@@ -3,7 +3,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 # Template metadata. Here's your intro to what this template does.
 metadata:
-  name: aks-cluster
+  name: Terraform-NodeJS-AKS-Catalog
   title: Terraform Demo - Node.js App on AKS Cluster
   description: Deploy a Node.js App on AKS Cluster using Terraform
 # The specification for how the template behaves
@@ -160,7 +160,7 @@ spec:
           action: "apply"
           registryName: "idpbackstage.azurecr.io"
           acrName: "idpbackstage"
-          
+      dependsOn: [github-action]   
     # Register the new component in the Backstage catalog
     - id: register
       name: Register
@@ -168,7 +168,7 @@ spec:
       input:
         repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/app-catalog-info.yaml'  # Where the catalog info is stored
-
+      dependsOn: [github-action-node-app]
   # Output links to the user after the template execution
   output:
     links:
