@@ -135,12 +135,17 @@ spec:
           region: ${{ parameters.region }}
           action: ${{ parameters.action }}
     # Register the new component in the Backstage catalog
-    - id: register
-      name: Register
+    - id: register-infra
+      name: Register Infrastructure
       action: catalog:register
       input:
         repoContentsUrl: "https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog"
         catalogInfoPath: '/blob/main/infrastructure/infra-catalog-info.yaml'  # Where the catalog info is stored
+    - id: Please wait infrastructure getting created
+      name: Please wait infrastructure getting created
+      action: sleep
+      input:
+        duration: 360  # Duration in seconds (6 minutes)
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action-node-app
       name: Trigger GitHub Action
@@ -148,7 +153,7 @@ spec:
       input:
         workflowId: deploy-app-to-aks-cluster.yml  # GitHub Action workflow ID
         repoUrl: 'github.com?repo=${{ parameters.name }}&owner=kedar-org'
-        branchOrTagName: 'main'  # The branch to run this action on
+        branchOrTagName: 'master'  # The branch to run this action on
         workflowInputs:
           organizationName: ${{ parameters.organizationName }}
           email: ${{ parameters.email }}
@@ -162,11 +167,11 @@ spec:
           acrName: "idpbackstage"
       dependsOn: [github-action]   
     # Register the new component in the Backstage catalog
-    - id: register
-      name: Register
+    - id: register-app
+      name: Register App
       action: catalog:register
       input:
-        repoContentsUrl: ${{ steps['publish'].output. }}
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/app-catalog-info.yaml'  # Where the catalog info is stored
       dependsOn: [github-action-node-app]
   # Output links to the user after the template execution
