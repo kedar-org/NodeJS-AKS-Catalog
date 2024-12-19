@@ -53,13 +53,13 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Terraform Init
       run: terraform init
-      working-directory: Terraform
+      working-directory: infrastructure
     - name: Terraform Format
       run: terraform fmt
-      working-directory: Terraform
+      working-directory: infrastructure
     - name: Terraform Validate
       run: terraform validate
-      working-directory: Terraform
+      working-directory: infrastructure
     - name: Terraform Apply
       run: terraform apply -auto-approve
       working-directory: infrastructure
@@ -88,13 +88,13 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
     - name: Terraform Init
       run: terraform init
-      working-directory: Terraform
+      working-directory: infrastructure
     - name: Terraform FMT
       run: terraform fmt
-      working-directory: Terraform
+      working-directory: infrastructure
     - name: Terraform Validate
       run: terraform validate
-      working-directory: Terraform
+      working-directory: infrastructure
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
       working-directory: infrastructure
