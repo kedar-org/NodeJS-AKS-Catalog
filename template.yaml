@@ -107,8 +107,10 @@ spec:
       action: fetch:template
       input:
         url: ./application  # Where the base content is stored
+        copyWithoutRender: ['.github/workflows/deploy-app-to-aks-cluster.yml']
         values:
           name: ${{ parameters.name }}
+
     # Publish the code to a GitHub repo
     - id: publish
       name: Publish
@@ -117,16 +119,9 @@ spec:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
-        visibility: public
+        access: public
         replace: false
 
-    - id: copy-workflow
-      name: Copy GitHub Workflow
-      action: filesystem:copy
-      input:
-        src: './application/.github/workflows/deploy-app-to-aks-cluster.yml'
-        dest: '${{ steps["publish"].output.repoUrl }}/.github/workflows/deploy-app-to-aks-cluster.yml'        
-        
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action
       name: Infra - Trigger GitHub Action
