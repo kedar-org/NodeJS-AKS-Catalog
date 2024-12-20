@@ -3,7 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send("Hello from NodeJSApp!");
+  res.send("Hello, This app and infrastructure is created from Backstage.io. Hurray!!");
 });
 
 app.listen(port, () => {
