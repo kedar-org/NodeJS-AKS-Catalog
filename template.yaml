@@ -107,7 +107,7 @@ spec:
       action: fetch:template
       input:
         url: ./application  # Where the base content is stored
-        copyWithoutRender: ['/.github/workflows/deploy-app-to-aks-cluster.yml']
+        copyWithoutRender: ['.github/workflows/*'],
         values:
           name: ${{ parameters.name }}
 
@@ -146,11 +146,11 @@ spec:
     #   input:
     #     repoContentsUrl: "https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog"
     #     catalogInfoPath: '/blob/main/infrastructure/infra-catalog-info.yaml'  # Where the catalog info is stored
-    - id: Please wait infra getting created
-      name: Please wait infra getting created
-      action: roadiehq:utils:sleep
-      input:
-        amount: 60  # Duration in seconds (6 minutes)
+    #- id: Please wait infra getting created
+    #  name: Please wait infra getting created
+    #  action: roadiehq:utils:sleep
+    #  input:
+    #    amount: 360  # Duration in seconds (6 minutes)
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action-node-app
       name: App - Trigger GitHub Action
