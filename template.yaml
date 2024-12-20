@@ -119,17 +119,9 @@ spec:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
-        access: public
+        repoVisibility: public
         replace: false
-    
-    # Update the repository visibility to public
-    - id: update-repo-visibility
-      name: Update Repository Visibility
-      action: github:repo:settings
-      input:
-        repoUrl: ${{ parameters.repoUrl }}
-        visibility: public
-        dependsOn: [publish]
+
     # Trigger a GitHub Action to set up the AKS cluster
     # - id: github-action
     #   name: Infra - Trigger GitHub Action
