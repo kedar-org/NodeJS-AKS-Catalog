@@ -107,7 +107,7 @@ spec:
       action: fetch:template
       input:
         url: ./application  # Where the base content is stored
-        copyWithoutRender: ['.github/workflows/*'],
+        copyWithoutRender: ['.github/workflows/*']
         values:
           name: ${{ parameters.name }}
 
