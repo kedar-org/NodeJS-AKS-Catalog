@@ -6,9 +6,6 @@ metadata:
   name: Terraform-NodeJS-AKS-Catalog
   title: Terraform Demo - Node.js App on AKS Cluster
   description: Deploy a Node.js App on AKS Cluster using Terraform
-  annotations:
-    backstage.io/managed-by-location: url:https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog
-    backstage.io/managed-by-origin-location: url:https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog
 # The specification for how the template behaves
 spec:
   # Who owns this template. Generally, it could be a team or individual
@@ -27,8 +24,8 @@ spec:
           type: string
           description: Unique name for your app
           ui:autofocus: true  # This field gets auto-focused in UI
-            options:
-              rows: 5  # Number of rows in the input area
+          ui:options:
+            rows: 5  # Number of rows in the input area
     # Ask the user where they want to store the code
     - title: Choose a Repo location
       required:
@@ -36,11 +33,11 @@ spec:
       properties:
         repoUrl:
           title: Repository Location
-          ui:
-            field: RepoUrlPicker  # A special UI component for selecting repo URLs
-            options:
-              allowedHosts:
-                - github.com  # Allowed hosts for repository
+          type: string
+          ui:field: RepoUrlPicker  # A special UI component for selecting repo URLs
+          ui:options:
+            allowedHosts:
+              - github.com  # Allowed hosts for repository
     # Parameters for setting up the Hashicorp Project and Workspace
     - title: Basic Terraform Organizations Configuration
       required:
@@ -51,6 +48,7 @@ spec:
       properties:
         organizationName:
           title: Organization Name
+          type: string
           description: The name of your Organization. Terraform organizations let you manage organizations, projects, and teams.
           ui:autofocus: true
           enum:
@@ -182,6 +180,7 @@ spec:
         repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/app-catalog-info.yaml'  # Where the catalog info is stored
       dependsOn: [github-action-node-app]
+  
   # Output links to the user after the template execution
   output:
     links:
