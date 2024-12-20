@@ -156,9 +156,9 @@ spec:
     #     catalogInfoPath: '/blob/main/infrastructure/infra-catalog-info.yaml'  # Where the catalog info is stored
     - id: Please wait infra getting created
       name: Please wait infra getting created
-       action: roadiehq:utils:sleep
-       input:
-         amount: 60  # Duration in seconds (6 minutes)
+      action: roadiehq:utils:sleep
+      input:
+        amount: 60  # Duration in seconds (6 minutes)
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action-node-app
       name: App - Trigger GitHub Action
