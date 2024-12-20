@@ -6,6 +6,9 @@ metadata:
   name: Terraform-NodeJS-AKS-Catalog
   title: Terraform Demo - Node.js App on AKS Cluster
   description: Deploy a Node.js App on AKS Cluster using Terraform
+  annotations:
+    backstage.io/managed-by-location: url:https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog
+    backstage.io/managed-by-origin-location: url:https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog
 # The specification for how the template behaves
 spec:
   # Who owns this template. Generally, it could be a team or individual
@@ -24,8 +27,8 @@ spec:
           type: string
           description: Unique name for your app
           ui:autofocus: true  # This field gets auto-focused in UI
-          ui:options:
-            rows: 5  # Number of rows in the input area
+            options:
+              rows: 5  # Number of rows in the input area
     # Ask the user where they want to store the code
     - title: Choose a Repo location
       required:
@@ -33,11 +36,11 @@ spec:
       properties:
         repoUrl:
           title: Repository Location
-          type: string
-          ui:field: RepoUrlPicker  # A special UI component for selecting repo URLs
-          ui:options:
-            allowedHosts:
-              - github.com  # Allowed hosts for repository
+          ui:
+            field: RepoUrlPicker  # A special UI component for selecting repo URLs
+            options:
+              allowedHosts:
+                - github.com  # Allowed hosts for repository
     # Parameters for setting up the Hashicorp Project and Workspace
     - title: Basic Terraform Organizations Configuration
       required:
@@ -48,7 +51,6 @@ spec:
       properties:
         organizationName:
           title: Organization Name
-          type: string
           description: The name of your Organization. Terraform organizations let you manage organizations, projects, and teams.
           ui:autofocus: true
           enum:
@@ -123,34 +125,38 @@ spec:
         replace: false
 
     # Trigger a GitHub Action to set up the AKS cluster
-    # - id: github-action
-    #   name: Infra - Trigger GitHub Action
-    #   action: github:actions:dispatch
-    #   input:
-    #     workflowId: manage-aks-cluster.yml  # GitHub Action workflow ID
-    #     repoUrl: 'github.com?repo=Terraform-NodeJS-AKS-Catalog&owner=kedar-org'
-    #     branchOrTagName: 'main'  # The branch to run this action on
-    #     workflowInputs:
-    #       organizationName: ${{ parameters.organizationName }}
-    #       email: ${{ parameters.email }}
-    #       projectName: ${{ parameters.projectName }}
-    #       workspaceName: ${{ parameters.workspaceName }}
-    #       resourceGroupName: ${{ parameters.resourceGroupName }}  
-    #       clusterName: ${{ parameters.clusterName }}
-    #       region: ${{ parameters.region }}
-    #       action: ${{ parameters.action }}
+    - id: github-action
+      name: Infra - Trigger GitHub Action
+      action: github:actions:dispatch
+      input:
+        workflowId: manage-aks-cluster.yml  # GitHub Action workflow ID
+        repoUrl: 'github.com?repo=Terraform-NodeJS-AKS-Catalog&owner=kedar-org'
+        branchOrTagName: 'main'  # The branch to run this action on
+        workflowInputs:
+          organizationName: ${{ parameters.organizationName }}
+          email: ${{ parameters.email }}
+          projectName: ${{ parameters.projectName }}
+          workspaceName: ${{ parameters.workspaceName }}
+          resourceGroupName: ${{ parameters.resourceGroupName }}  
+          clusterName: ${{ parameters.clusterName }}
+          region: ${{ parameters.region }}
+          action: ${{ parameters.action }}
+    
     # Register the new component in the Backstage catalog
-    # - id: register-infra
-    #   name: Register Infrastructure
-    #   action: catalog:register
-    #   input:
-    #     repoContentsUrl: "https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog"
-    #     catalogInfoPath: '/blob/main/infrastructure/infra-catalog-info.yaml'  # Where the catalog info is stored
-    #- id: Please wait infra getting created
-    #  name: Please wait infra getting created
-    #  action: roadiehq:utils:sleep
-    #  input:
-    #    amount: 360  # Duration in seconds (6 minutes)
+    - id: register-infra
+      name: Register Infrastructure
+      action: catalog:register
+      input:
+        repoContentsUrl: "https://github.com/kedar-org/Terraform-NodeJS-AKS-Catalog"
+        catalogInfoPath: '/blob/main/infrastructure/infra-catalog-info.yaml'  # Where the catalog info is stored
+    
+    # Please wait infra getting created
+    - id: Please wait infra getting created
+      name: Please wait infra getting created
+      action: roadiehq:utils:sleep
+      input:
+        amount: 360  # Duration in seconds (6 minutes)
+    
     # Trigger a GitHub Action to set up the AKS cluster
     - id: github-action-node-app
       name: App - Trigger GitHub Action
@@ -167,6 +173,7 @@ spec:
           acrName: "idpbackstage"
           action: "apply"
       dependsOn: [github-action]   
+    
     # Register the new component in the Backstage catalog
     - id: register-app
       name: Register App
