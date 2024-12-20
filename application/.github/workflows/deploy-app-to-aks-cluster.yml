@@ -23,7 +23,7 @@ on:
         required: true      
   push:
     branches:
-      - main
+      - master
 
 env:
   APP_NAME: ${{ github.event.inputs.projectName }}
