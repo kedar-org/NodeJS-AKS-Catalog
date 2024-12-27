@@ -57,4 +57,12 @@ spec:
           enum:
             - apply
             - destroy
+
+  # Define the steps for the template
+  steps:
+    - id: fetch-components
+      name: Fetch Components
+      action: fetch:plain
+      input:
+        url: http://localhost:7777/api/catalog/entities/by-query?orderField=metadata.name%2Casc&filter=kind%3Dcomponent  
  
